@@ -1,0 +1,27 @@
+{
+  "app": {
+    "name": "web_app_json",
+    "version": "0.0.3",
+    "port": 8080,
+    "start_time": "2024-10-24",
+    "machine_id": 1,
+    "gin_mode": "release"
+  },
+  "log": {
+    "level": "debug",
+    "mode": "dev",
+    "filename": "web_app.log",
+    "max_size": 200,
+    "max_age": 30,
+    "max_backups": 7
+  },
+  "mysql": {
+    "host": "127.0.1.1",
+    "port": 3306,
+    "user": "root",
+    "password": "123456",
+    "dbname": "sql_test",
+    "MaxOpenConns": 20,
+    "MaxIdleConns": 10
+  }
+}
