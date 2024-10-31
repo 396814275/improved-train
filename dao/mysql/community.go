@@ -11,7 +11,7 @@ func GetCommunityList() (communityList []*models.Community, err error) {
 	sqlStr := "select community_id,community_name from community"
 	if err := db.Select(&communityList, sqlStr); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			zap.L().Warn("there is no community in db")
+			zap.L().Error("there is no community in db")
 			err = nil
 		}
 	}
@@ -19,14 +19,15 @@ func GetCommunityList() (communityList []*models.Community, err error) {
 }
 
 // GetCommunityListByID 根据ID查询社区详情
-func GetCommunityListByID(id int64) (communityDetail *models.CommunityDetail, err error) {
+func GetCommunityDetailByID(uid int64) (communityDetail *models.CommunityDetail, err error) {
 	communityDetail = new(models.CommunityDetail)
 	sqlStr := `select community_id,community_name,introduction,create_time,update_time
                from community
                where community_id = ?`
-	if err := db.Get(communityDetail, sqlStr, id); err != nil {
+	if err := db.Get(communityDetail, sqlStr, uid); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			err = ErrInvalidId
+			zap.L().Error("get community detail by id error", zap.Error(err))
 		}
 	}
 	return communityDetail, err
