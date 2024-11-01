@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"go.uber.org/zap"
@@ -72,12 +73,16 @@ func LoginHandler(c *gin.Context) {
 
 	}
 	//2.业务逻辑处理
-	token, err := logic.Login(p)
+	user, err := logic.Login(p)
 	if err != nil {
 		zap.L().Error("Login failed err:", zap.String("username:", p.Username), zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return
 	}
 	//	3.返回响应
-	ResponseSuccess(c, token)
+	ResponseSuccess(c, gin.H{
+		"user_id":  fmt.Sprintf("%d", user.UserId),
+		"username": user.Username,
+		"token":    user.Token,
+	})
 }
