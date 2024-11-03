@@ -16,12 +16,19 @@
     "max_backups": 7
   },
   "mysql": {
-    "host": "127.0.1.1",
+    "sql_host": "127.0.0.1",
     "port": 3306,
     "user": "root",
     "password": "123456",
     "dbname": "sql_test",
     "MaxOpenConns": 20,
     "MaxIdleConns": 10
+  },
+  "redis": {
+    "redis_host": "127.0.0.1:6379",
+    "port": 6379,
+    "password": "",
+    "db": 0,
+    "poolsize": 20
   }
 }

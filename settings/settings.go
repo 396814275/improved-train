@@ -13,6 +13,7 @@ type MultipleConfig struct {
 	*Appconfig   `mapstructure:"app"`
 	*Logconfig   `mapstructure:"log"`
 	*Mysqlconfig `mapstructure:"mysql"`
+	*Redisconfig `mapstructure:"redis"`
 }
 
 type Appconfig struct {
@@ -33,13 +34,19 @@ type Logconfig struct {
 }
 
 type Mysqlconfig struct {
-	Host         string `mapstructure:"host"`
+	Host         string `mapstructure:"sql_host"`
 	Port         string `mapstructure:"port"`
 	User         string `mapstructure:"user"`
 	Password     string `mapstructure:"password"`
 	Dbname       string `mapstructure:"dbname"`
 	MaxOpenConns int    `mapstructure:"MaxOpenConns"`
 	MaxIdleConns int    `mapstructure:"MaxIdleConns"`
+}
+type Redisconfig struct {
+	Host     string `mapstructure:"redis_host"`
+	Password string `mapstructure:"password"`
+	Db       int    `mapstructure:"db"`
+	Poolsize int    `mapstructure:"poolsize"`
 }
 
 func Init(filePath string) (err error) {
