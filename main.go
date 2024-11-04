@@ -14,6 +14,7 @@ import (
 	"time"
 	"web2/controllers"
 	"web2/dao/mysql"
+	"web2/dao/redis"
 	"web2/logger"
 	"web2/pkg/snowflake"
 	"web2/routes"
@@ -51,21 +52,18 @@ func main() {
 		return
 	}
 	defer mysql.Close()
-	//  4.初始化redis链接
-	//if err := redis.Init(); err != nil {
-	//	fmt.Printf("init settings failed, err:%v\n", err)
-	//	return
-	//}
+
+	//4.初始化redis链接
+	if err := redis.Init(settings.Conf.Redisconfig); err != nil {
+		fmt.Printf("init settings failed, err:%v\n", err)
+		return
+	}
 	//雪花ID生成器
 	if err := snowflake.Init(settings.Conf.StartTime, settings.Conf.MachineID); err != nil {
 		fmt.Printf("StartTime:%s\n", settings.Conf.StartTime)
 		fmt.Printf("init snowflake failed, err:%v\n", err)
 
 	}
-
-	//fmt.Println(settings.Conf.StartTime)
-	//id := snowflake.GenID()
-	//fmt.Println(id)
 
 	//
 	if err := controllers.InitTrans("zh"); err != nil {
