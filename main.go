@@ -58,6 +58,7 @@ func main() {
 		fmt.Printf("init settings failed, err:%v\n", err)
 		return
 	}
+	defer redis.Close()
 	//雪花ID生成器
 	if err := snowflake.Init(settings.Conf.StartTime, settings.Conf.MachineID); err != nil {
 		fmt.Printf("StartTime:%s\n", settings.Conf.StartTime)

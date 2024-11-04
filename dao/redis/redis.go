@@ -2,7 +2,7 @@ package redis
 
 import (
 	"context"
-	"github.com/redis/go-redis/v9"
+	"github.com/go-redis/redis/v8"
 	"web2/settings"
 )
 
@@ -18,4 +18,7 @@ func Init(cfg *settings.Redisconfig) (err error) {
 	})
 	_, err = rdb.Ping(context.Background()).Result()
 	return err
+}
+func Close() {
+	_ = rdb.Close()
 }

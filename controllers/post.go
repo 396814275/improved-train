@@ -12,7 +12,7 @@ func CreatePostHandler(c *gin.Context) {
 	//1.获取参数及参数的校验
 	p := new(models.Post)
 	if err := c.ShouldBindJSON(p); err != nil {
-		zap.L().Error("create post with invalid param")
+		zap.L().Error("create post with invalid param:%v", zap.Error(err))
 		ResponseError(c, CodeInvalidParam)
 		return
 	}
