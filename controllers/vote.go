@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"go.uber.org/zap"
@@ -19,14 +18,13 @@ func PostVoteHandler(c *gin.Context) {
 	//	参数校验
 	p := new(models.ParamVoteData)
 	if err := c.ShouldBindJSON(p); err != nil {
-		var errs validator.ValidationErrors
-		ok := errors.As(err, &errs)
+		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
-			ResponseError(c, CodeInvalidParam)
+			zap.L().Error("PostVote failed", zap.Error(err))
 			return
 		}
-		errData := removeTopStruct(errs.Translate(trans))
-		ResponseErrorWithMsg(c, CodeInvalidParam, errData)
+		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
+		zap.L().Error("PostVote failed", zap.Error(err))
 		return
 	}
 	userID, err := GetCurrentUser(c)

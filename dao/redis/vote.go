@@ -41,13 +41,15 @@ var (
 func VoteForPost(userID string, postID string, value float64) (err error) {
 	//  1.接受参数并校验限制
 
-	//postTime := rdb.ZScore(context.Background(), getRedisKey(KeyPostTimeZset), postID).Val()
-	//if float64(time.Now().Unix())-postTime > oneWeekInSeconds {
-	//	return ErrVoteTimeExpired
-	//}
+	postTime := rdb.ZScore(context.Background(), getRedisKey(KeyPostTimeZset), postID).Val()
+	if float64(time.Now().Unix())-postTime > oneWeekInSeconds {
+		return ErrVoteTimeExpired
+	}
 	//	2.更新
 	//先查当前用户给当前帖子的投票记录
 	ov := rdb.ZScore(context.Background(), getRedisKey(KeyPostScoreVoteZsetPF+postID), userID).Val()
+	//如果这两次投票
+
 	//计算两次操作的差值的绝对值
 	var dir float64
 	if value > ov {

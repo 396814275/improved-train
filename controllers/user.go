@@ -18,18 +18,13 @@ func SignUpHandler(c *gin.Context) {
 	p := new(models.ParamSignUp)
 	if err := c.ShouldBindJSON(p); err != nil {
 		zap.L().Error("Signup with invalid param", zap.Error(err))
-		var errs validator.ValidationErrors
-		ok := errors.As(err, &errs)
+		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
-			ResponseError(c, CodeInvalidParam)
+			zap.L().Error("Signup with invalid param", zap.Error(err))
 			return
 		}
 		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
-		//c.JSON(http.StatusOK, gin.H{
-		//	"msg": removeTopStruct(errs.Translate(trans)),
-		//})
-		//return
-
+		return
 	}
 	//手动对请求参数进行详细的业务规矩校验
 	//if len(p.Username) == 0 || len(p.Password) == 0 || len(p.RePassword) == 0 || p.RePassword != p.Password {

@@ -23,7 +23,7 @@ func ResponseErrorWithMsg(c *gin.Context, code ResCode, msg interface{}) {
 
 	c.JSON(http.StatusOK, &ResponseData{
 		Code: code,
-		Msg:  code.Msg(),
+		Msg:  msg,
 		Data: nil,
 	})
 }
