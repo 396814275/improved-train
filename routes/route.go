@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 	"web2/controllers"
 	"web2/middlewares"
 )
@@ -45,6 +46,8 @@ func Setup(mode string) *gin.Engine {
 		c.JSON(200, gin.H{
 			"msg": "404 NOT FOUND",
 		})
+		zap.L().Error("404 NOT FOUND")
 	})
+
 	return r
 }

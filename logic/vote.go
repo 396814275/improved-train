@@ -21,6 +21,6 @@ direction=-1:
 */
 
 func PostVote(p *models.ParamVoteData, userID int64) error {
-	return redis.VoteForPost(strconv.Itoa(int(userID)), strconv.FormatInt(p.PostID, 20), float64(p.Direction))
+	return redis.VoteForPost(strconv.Itoa(int(userID)), strconv.FormatInt(p.PostID, 10), float64(p.Direction))
 
 }

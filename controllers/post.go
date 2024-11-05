@@ -29,6 +29,7 @@ func CreatePostHandler(c *gin.Context) {
 		ResponseError(c, CodeServeBusy)
 		return
 	}
+
 	//3.返回响应
 	ResponseSuccess(c, nil)
 }

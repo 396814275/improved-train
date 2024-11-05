@@ -12,7 +12,7 @@ CREATE  TABLE `user` (
     UNIQUE KEY `idx_username` (`username`) USING BTREE,
     UNIQUE KEY `idx_user-id` (`user_id`) USING BTREE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE =utf8mb4_general_ci;
-CREATE  TABLE `user` (
+CREATE  TABLE `community` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `community_id` bigint(20) NOT NULL,
     `community_name` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,

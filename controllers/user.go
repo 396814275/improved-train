@@ -25,10 +25,10 @@ func SignUpHandler(c *gin.Context) {
 			return
 		}
 		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
-		c.JSON(http.StatusOK, gin.H{
-			"msg": removeTopStruct(errs.Translate(trans)),
-		})
-		return
+		//c.JSON(http.StatusOK, gin.H{
+		//	"msg": removeTopStruct(errs.Translate(trans)),
+		//})
+		//return
 
 	}
 	//手动对请求参数进行详细的业务规矩校验

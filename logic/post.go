@@ -3,6 +3,7 @@ package logic
 import (
 	"go.uber.org/zap"
 	"web2/dao/mysql"
+	"web2/dao/redis"
 	"web2/models"
 	"web2/pkg/snowflake"
 )
@@ -11,8 +12,9 @@ func CreatePost(p *models.Post) (err error) {
 	//	1.生成postid
 	p.ID = int64(snowflake.GenID())
 	//	保存到数据库
-	return mysql.CreatePost(p)
-
+	err = mysql.CreatePost(p)
+	err = redis.CreatePost(p.ID)
+	return
 }
 
 // GetPostByID 根据帖子id返回帖子详情数据
