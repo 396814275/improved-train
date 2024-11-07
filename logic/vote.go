@@ -2,8 +2,9 @@ package logic
 
 import (
 	"strconv"
-	"web2/dao/redis"
+	"web2/dao/mysql"
 	"web2/models"
+	"web2/pkg/snowflake"
 )
 
 //投票功能
@@ -21,6 +22,8 @@ direction=-1:
 */
 
 func PostVote(p *models.ParamVoteData, userID int64) error {
-	return redis.VoteForPost(strconv.Itoa(int(userID)), strconv.FormatInt(p.PostID, 10), float64(p.Direction))
+	//生成uid
+	p.Uid = int64(snowflake.GenID())
+	return mysql.VoteForPost(strconv.Itoa(int(userID)), strconv.FormatInt(p.PostID, 10), p.Direction, p.Uid)
 
 }

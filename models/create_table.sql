@@ -33,8 +33,16 @@ CREATE  TABLE `post` (
      `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '社区状态',
      `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
      `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+      `score` bigint(20) DEFAULT '0' COMMENT '帖子分数',
       PRIMARY KEY(`id`),
       UNIQUE KEY `idx_post_id` (`post_id`) USING BTREE,
       KEY `idx_author_id` (`author_id`) USING BTREE,
       KEY `idx_community_id` (`community_id`) USING BTREE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE =utf8mb4_general_ci;
+CREATE TABLE `vote`(
+    `uid` bigint(20) NOT NULL COMMENT '用户ID',
+    `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+    `post_id` bigint(20) NOT NULL COMMENT '帖子id',
+    `status` tinyint(1) DEFAULT '0' COMMENT '帖子分数',
+    PRIMARY KEY (`uid`,`user_id`)
+)ENGINE =InnoDB DEFAULT CHARSET = utf8mb4 COLLATE =utf8mb4_general_ci;

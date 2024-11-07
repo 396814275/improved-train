@@ -3,26 +3,25 @@ package redis
 import (
 	"context"
 	"github.com/go-redis/redis/v8"
-	"web2/models"
 )
 
-func GetPostInOrder(p *models.ParamPostList) ([]string, error) {
-	//	从redis中获取id
-	//根据用户请求中携带的参数确定要查询的redis key
-	key := getRedisKey(KeyPostTimeZset)
-	if p.Order == models.OrderByScore {
-		key = getRedisKey(KeyPostScoreZset)
-	}
-	//确定查询的索引起始点
-	start := (p.Page - 1) * p.Size
-	end := start + p.Size - 1
-	//ZRevRange
-	ids, err := rdb.ZRevRange(context.Background(), key, start, end).Result()
-	if err != nil {
-		return nil, err
-	}
-	return ids, nil
-}
+//func GetPostInOrder(p *models.ParamPostList) ([]string, error) {
+//	//	从redis中获取id
+//	//根据用户请求中携带的参数确定要查询的redis key
+//	key := getRedisKey(KeyPostTimeZset)
+//	if p.Order == models.OrderByScore {
+//		key = getRedisKey(KeyPostScoreZset)
+//	}
+//	//确定查询的索引起始点
+//	start := (p.Page - 1) * p.Size
+//	end := start + p.Size - 1
+//	//ZRevRange
+//	ids, err := rdb.ZRevRange(context.Background(), key, start, end).Result()
+//	if err != nil {
+//		return nil, err
+//	}
+//	return ids, nil
+//}
 
 // GetPostVoteData 根据ids查询每篇帖子的票数据
 func GetPostVoteData(ids []string) (data []int64, err error) {

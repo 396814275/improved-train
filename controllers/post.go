@@ -57,11 +57,15 @@ func GetPostDetailHandler(c *gin.Context) {
 
 // GetPostListHandler 获取帖子列表
 func GetPostListHandler(c *gin.Context) {
-	//获取分页参数
-	page, size := GetPageInfo(c)
-
 	//	获取数据
-	data, err := logic.GetPostList(page, size)
+	var p models.ParamPostList
+	err := c.ShouldBindQuery(&p)
+	if err != nil {
+		zap.L().Error("GetPostListHandler2 invalid param", zap.Error(err))
+		ResponseError(c, CodeInvalidParam)
+		return
+	}
+	data, err := logic.GetPostList(&p)
 	if err != nil {
 		zap.L().Error("logic.GetPostList failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
@@ -72,34 +76,34 @@ func GetPostListHandler(c *gin.Context) {
 }
 
 // GetPostListHandler2 根据前段传来的参数动态的获取帖子列表
-func GetPostListHandler2(c *gin.Context) {
-	// 1.获取参数
-	// 2.去redis获取id列表
-	// 3.根据id去mysql查询帖子详细信息
-	//get请求参数：/api/v1/post2?page=1&size=10&order=time query string参数
-	//获取分页参数
-	p := &models.ParamPostList{
-		Page:  1,
-		Size:  10,
-		Order: models.OrderByTime,
-	}
-	if err := c.ShouldBindQuery(p); err != nil {
-		zap.L().Error("GetPostListHandler2 invalid param", zap.Error(err))
-		ResponseError(c, CodeInvalidParam)
-		return
-	}
-	//page, size := GetPageInfo(c)
-
-	//	获取数据
-	data, err := logic.GetPostList2(p)
-	if err != nil {
-		zap.L().Error("logic.GetPostList failed", zap.Error(err))
-		ResponseError(c, CodeServeBusy)
-		return
-	}
-	//	返回响应
-	ResponseSuccess(c, data)
-}
+//func GetPostListHandler2(c *gin.Context) {
+//	// 1.获取参数
+//	// 2.去redis获取id列表
+//	// 3.根据id去mysql查询帖子详细信息
+//	//get请求参数：/api/v1/post2?page=1&size=10&order=time query string参数
+//	//获取分页参数
+//	p := &models.ParamPostList{
+//		Page:  1,
+//		Size:  10,
+//		Order: models.OrderByTime,
+//	}
+//	if err := c.ShouldBindQuery(p); err != nil {
+//		zap.L().Error("GetPostListHandler2 invalid param", zap.Error(err))
+//		ResponseError(c, CodeInvalidParam)
+//		return
+//	}
+//	//page, size := GetPageInfo(c)
+//
+//	//	获取数据
+//	data, err := logic.GetPostList2(p)
+//	if err != nil {
+//		zap.L().Error("logic.GetPostList failed", zap.Error(err))
+//		ResponseError(c, CodeServeBusy)
+//		return
+//	}
+//	//	返回响应
+//	ResponseSuccess(c, data)
+//}
 
 //func GetComunityPostListHandler(c *gin.Context) {
 //	p := &models.ParamCommunityPostList{
